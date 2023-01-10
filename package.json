@@ -5,7 +5,8 @@
   "scripts": {
     "start": "vite --host --open",
     "build": "tsc && vite build",
-    "build-ci": "tsc && vite build --base=/three-orientation-vector/",
+    "build-ci": "vite build --base=/three-orientation-vector/",
+    "check": "tsc",
     "preview": "vite preview --open"
   },
   "devDependencies": {

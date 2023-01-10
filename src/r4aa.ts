@@ -1,4 +1,4 @@
-import { Quaternion } from 'three'
+import type { Quaternion } from 'three'
 
 export class R4AA {
   th: number
@@ -13,7 +13,16 @@ export class R4AA {
     this.z = z
   }
 
-  toQuat (): Quaternion {
+  set(th = 0, x = 0, y = 0, z = 0) {
+    this.th = th
+    this.x = x
+    this.y = y
+    this.z = z
+
+    return this
+  }
+
+  toQuat (dest: Quaternion): Quaternion {
     const sinA = Math.sin(this.th / 2)
     // Ensure that point xyz is on the unit sphere
     this.normalize()
@@ -24,7 +33,7 @@ export class R4AA {
     const z = this.z * sinA
     const w = Math.cos(this.th / 2)
 
-    return new Quaternion(x, y, z, w)
+    return dest.set(x, y, z, w)
   }
 
   normalize () {
@@ -38,5 +47,7 @@ export class R4AA {
     this.x /= norm
     this.y /= norm
     this.z /= norm
+
+    return this
   }
 }

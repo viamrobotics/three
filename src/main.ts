@@ -9,15 +9,18 @@ const quatA = new Quaternion()
 const quatB = new Quaternion()
 const quatC = new Quaternion()
 const quatD = new Quaternion()
+const quatE = new Quaternion()
 
 const vecA = new Vector3()
 const vecB = new Vector3()
 const vecC = new Vector3()
 const vecD = new Vector3()
 
+const r4aa = new R4AA()
+
 const defaultAngleEpsilon = 0.000_01
 
-const anglesToQuat = (angle1: number, angle2: number, angle3: number): Quaternion => {
+const anglesToQuat = (dest: Quaternion, angle1: number, angle2: number, angle3: number): Quaternion => {
   const y = [0, 0, 0]
   const x = [0, 0, 0]
 
@@ -30,7 +33,7 @@ const anglesToQuat = (angle1: number, angle2: number, angle3: number): Quaternio
   y[2] = Math.sin(angle3 / 2)
   x[2] = Math.cos(angle3 / 2)
 
-  return new Quaternion(
+  return dest.set(
     (x[0] * y[1] * y[2]) - (y[0] * y[1] * x[2]),
     (x[0] * y[1] * x[2]) + (y[0] * y[1] * y[2]),
     (y[0] * x[1] * x[2]) + (x[0] * x[1] * y[2]),
@@ -156,8 +159,8 @@ export class OrientationVector {
          * If so theta is negative, otherwise positive
          * An R4AA is a convenient way to rotate a point by an amount around an arbitrary axis
          */
-        const aa = new R4AA(-theta, this.x, this.y, this.z)
-        const q2 = aa.toQuat()
+        const aa = r4aa.set(-theta, this.x, this.y, this.z)
+        const q2 = aa.toQuat(quatE)
         const testZ = q2.multiplyQuaternions(q2.multiply(zAxis), q2.conjugate())
         const norm3 = v1.cross(vecD.set(testZ.x, testZ.y, testZ.z))
         const cosTest = norm1.dot(norm3) / (norm1.length() * norm3.length())
@@ -180,7 +183,7 @@ export class OrientationVector {
     return this
   }
 
-  toQuaternion (): Quaternion {
+  toQuaternion (dest: Quaternion): Quaternion {
     this.normalize()
 
     // acos(rz) ranges from 0 (north pole) to pi (south pole)
@@ -203,10 +206,10 @@ export class OrientationVector {
       lon = Math.atan2(this.y, this.x)
     }
 
-    return anglesToQuat(lon, lat, theta)
+    return anglesToQuat(dest, lon, lat, theta)
   }
 
-  toEuler () {
-    return new Euler().setFromQuaternion(this.toQuaternion())
+  toEuler (dest: Euler) {
+    return dest.setFromQuaternion(this.toQuaternion(quatA))
   }
 }

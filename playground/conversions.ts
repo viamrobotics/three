@@ -52,7 +52,7 @@ export const conversion = (type: InputTypes, units: Units) => {
       rotations.ov.z
     )
 
-    quat.copy(ov.toQuaternion())
+    quat.copy(ov.toQuaternion(quat))
 
   } else if (type === 'matrix') {
     const { row1, row2, row3 } = rotations.matrix

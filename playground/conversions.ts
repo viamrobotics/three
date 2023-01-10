@@ -1,13 +1,13 @@
 import * as THREE from 'three'
 import { Units, InputTypes } from './types'
 import { rotations } from './rotations'
-// import { OrientationVector } from '../src/main'
+import { OrientationVector } from '../src/main'
 
 const v3 = new THREE.Vector3()
 const quat = new THREE.Quaternion()
 const euler = new THREE.Euler()
 const m4 = new THREE.Matrix4()
-// const ov = new OrientationVector()
+const ov = new OrientationVector()
 
 const toRad = (x: number, unit: Units): number => {
   if (unit === Units.degrees) {
@@ -45,14 +45,14 @@ const toFixedWidth = (x: number): number => {
 
 export const conversion = (type: InputTypes, units: Units) => {
   if (type === 'ov') {
-    // ov.set(
-    //   toRad(rotations.ov.w, units),
-    //   rotations.ov.x,
-    //   rotations.ov.y,
-    //   rotations.ov.z
-    // )
+    ov.set(
+      toRad(rotations.ov.w, units),
+      rotations.ov.x,
+      rotations.ov.y,
+      rotations.ov.z
+    )
 
-    // quat.copy(ov.toQuaternion())
+    quat.copy(ov.toQuaternion())
 
   } else if (type === 'matrix') {
     const { row1, row2, row3 } = rotations.matrix
@@ -111,11 +111,11 @@ export const conversion = (type: InputTypes, units: Units) => {
   rotations.quaternion.z = toReal(quat.z)
   rotations.quaternion.w = toReal(quat.w)
 
-  // ov.setFromQuaternion(quat)
-  // rotations.ov.w = ov.th
-  // rotations.ov.x = ov.x
-  // rotations.ov.y = ov.y
-  // rotations.ov.z = ov.z
+  ov.setFromQuaternion(quat)
+  rotations.ov.w = ov.th
+  rotations.ov.x = ov.x
+  rotations.ov.y = ov.y
+  rotations.ov.z = ov.z
 
   m4.makeRotationFromQuaternion(quat)
 

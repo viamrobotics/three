@@ -39,15 +39,33 @@ const anglesToQuat = (angle1: number, angle2: number, angle3: number): Quaternio
 }
 
 // See: https://github.com/viamrobotics/rdk/blob/main/spatialmath/orientationVector.go
+/**
+ * Viam’s orientation vector is a method for describing the orientation of an object in 3D space.
+ * It is part of a Pose which also includes the position in 3D space.
+ * 
+ * The vector extends from the center of the object to another point in the reference frame. This defines the direction something is pointing in.
+ */
 export class OrientationVector {
   readonly isOrientationVector = true
 
   /**
-   * 
+   * Describes the angular position around the vector.
    */
   th: number
+
+  /**
+   * The vector's x component.
+   */
   x: number
+
+  /**
+   * The vector's y component.
+   */
   y: number
+
+  /**
+   * The vector's z component.
+   */
   z: number
 
   constructor (th = 0, x = 0, y = 0, z = 0) {
@@ -76,6 +94,7 @@ export class OrientationVector {
     this.x = x
     this.y = y
     this.z = z
+
     return this
   }
 
@@ -84,6 +103,7 @@ export class OrientationVector {
     this.x = ov.x
     this.y = ov.y
     this.z = ov.z
+
     return this
   }
 

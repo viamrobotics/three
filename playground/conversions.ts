@@ -112,7 +112,7 @@ export const conversion = (type: InputTypes, units: Units) => {
   rotations.quaternion.w = toReal(quat.w)
 
   ov.setFromQuaternion(quat)
-  rotations.ov.w = ov.th
+  rotations.ov.w = toAngle(ov.th, units)
   rotations.ov.x = ov.x
   rotations.ov.y = ov.y
   rotations.ov.z = ov.z

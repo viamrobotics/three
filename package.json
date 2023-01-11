@@ -4,8 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "vite --host --open",
-    "build": "tsc && vite build",
-    "build-ci": "vite build --base=/three-orientation-vector/",
+    "build": "vite build",
     "check": "tsc",
     "preview": "vite preview --open"
   },

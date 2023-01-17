@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { Quaternion } from 'three'
+import { Quaternion, Vector3 } from 'three'
 import { OrientationVector } from '../src/main'
 import { EPSILON } from '../src/constants'
 

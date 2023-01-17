@@ -87,11 +87,12 @@ export class OrientationVector {
    * Normalizes the vector component.
    */
   normalize (): this {
-    const length = this.length()
+    vecA.set(this.x, this.y, this.z)
+    vecA.normalize()
 
-    this.x /= length
-    this.y /= length
-    this.z /= length
+    this.x = vecA.x
+    this.y = vecA.y
+    this.z = vecA.z
 
     return this
   }

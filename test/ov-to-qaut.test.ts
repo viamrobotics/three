@@ -1,8 +1,7 @@
 import { expect, test } from 'vitest'
 import { Quaternion } from 'three'
 import { OrientationVector } from '../src/main'
-
-const EPSILON = 0.000001
+import { EPSILON } from '../src/constants'
 
 const ov = new OrientationVector()
 const expectedQuat = new Quaternion()
@@ -10,10 +9,10 @@ const convertedQuat = new Quaternion()
 
 const areQuaternionsApproxEqual = (q1: Quaternion, q2: Quaternion) => {
   return (
-    Math.abs(q1.x - q2.x) < EPSILON &&
-    Math.abs(q1.y - q2.y) < EPSILON &&
-    Math.abs(q1.z - q2.z) < EPSILON &&
-    Math.abs(q1.w - q2.w) < EPSILON
+    Math.abs(q1.x) - Math.abs(q2.x) < EPSILON &&
+    Math.abs(q1.y) - Math.abs(q2.y) < EPSILON &&
+    Math.abs(q1.z) - Math.abs(q2.z) < EPSILON &&
+    Math.abs(q1.w) - Math.abs(q2.w) < EPSILON
   )
 }
 

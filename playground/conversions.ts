@@ -46,10 +46,10 @@ const toFixedWidth = (x: number): number => {
 export const conversion = (type: InputTypes, units: Units) => {
   if (type === 'ov') {
     ov.set(
-      toRad(rotations.ov.w, units),
       rotations.ov.x,
       rotations.ov.y,
-      rotations.ov.z
+      rotations.ov.z,
+      toRad(rotations.ov.w, units)
     )
 
     quat.copy(ov.toQuaternion(quat))

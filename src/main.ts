@@ -54,24 +54,24 @@ export class OrientationVector {
   th: number
 
   constructor (x = 0, y = 0, z = 0, th = 0) {
-    vecA.set(x, y, z).normalize()
-  
-    this.x = vecA.x
-    this.y = vecA.y
-    this.z = vecA.z
+    this.x = x
+    this.y = y
+    this.z = z
     this.th = th
+
+    this.normalize()
   }
 
   /**
    * Sets the value of this orientation vector.
    */
   set (x = 0, y = 0, z = 0, th = 0): this {
-    vecA.set(x, y, z).normalize()
-  
     this.x = x
     this.y = y
     this.z = z
     this.th = th
+
+    this.normalize()
 
     return this
   }
@@ -105,6 +105,8 @@ export class OrientationVector {
     this.y = ov.y
     this.z = ov.z
     this.th = ov.th
+
+    this.normalize()
 
     return this
   }
@@ -186,6 +188,8 @@ export class OrientationVector {
   }
 
   toEuler (dest: Euler) {
+    this.normalize()
+
     return dest.setFromQuaternion(this.toQuaternion(quatA))
   }
 }

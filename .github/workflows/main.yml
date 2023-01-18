@@ -27,7 +27,6 @@ jobs:
           CLEAN: true
           clean-exclude: |
             .nojekyll
-
       - name: Publish 🚀
         uses: JS-DevTools/npm-publish@v1
         with:

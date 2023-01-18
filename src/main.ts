@@ -19,7 +19,9 @@ const vecF = new Vector3()
 const vecG = new Vector3()
 const vecH = new Vector3()
 
-// See: https://github.com/viamrobotics/rdk/blob/main/spatialmath/orientationVector.go
+// Golang: https://github.com/viamrobotics/rdk/blob/main/spatialmath/orientationVector.go
+// Rust:   https://github.com/viamrobotics/rust-utils/blob/main/src/spatialmath/utils.rs
+
 /**
  * Viam’s orientation vector is a method for describing the orientation of an object in 3D space.
  * It is part of a Pose which also includes the position in 3D space.
@@ -29,23 +31,43 @@ const vecH = new Vector3()
 export class OrientationVector {
   readonly isOrientationVector = true
 
+  #vec = new Vector3()
+
   /**
    * The vector's x component.
    * @default 0
    */
-  x: number
+  set x (value: number) {
+    this.#vec.setX(value).normalize()
+  }
+
+  get x (): number {
+    return this.#vec.x
+  }
 
   /**
    * The vector's y component.
    * @default 0
    */
-  y: number
+  set y (value: number) {
+    this.#vec.setY(value).normalize()
+  }
+
+  get y (): number {
+    return this.#vec.y
+  }
 
   /**
    * The vector's z component.
    * @default 0
    */
-  z: number
+  set z (value: number) {
+    this.#vec.setZ(value).normalize()
+  }
+
+  get z () {
+    return this.#vec.z
+  }
 
   /**
    * Describes the rotation around the vector.
@@ -54,24 +76,16 @@ export class OrientationVector {
   th: number
 
   constructor (x = 0, y = 0, z = 0, th = 0) {
-    this.x = x
-    this.y = y
-    this.z = z
+    this.#vec.set(x, y, z).normalize()
     this.th = th
-
-    this.normalize()
   }
 
   /**
    * Sets the value of this orientation vector.
    */
   set (x = 0, y = 0, z = 0, th = 0): this {
-    this.x = x
-    this.y = y
-    this.z = z
+    this.#vec.set(x, y, z).normalize()
     this.th = th
-
-    this.normalize()
 
     return this
   }
@@ -80,33 +94,15 @@ export class OrientationVector {
    * Computes the length of this orientation vector.
    */
   length (): number {
-    return Math.sqrt((this.x ** 2) + (this.y ** 2) + (this.z ** 2))
-  }
-
-  /**
-   * Normalizes the vector component.
-   */
-  normalize (): this {
-    vecA.set(this.x, this.y, this.z)
-    vecA.normalize()
-
-    this.x = vecA.x
-    this.y = vecA.y
-    this.z = vecA.z
-
-    return this
+    return this.#vec.length()
   }
 
   /**
    * Copies value of ov to this orientation vector.
    */
   copy (ov: OrientationVector): this {
-    this.x = ov.x
-    this.y = ov.y
-    this.z = ov.z
+    this.#vec.set(ov.x, ov.y, ov.z).normalize()
     this.th = ov.th
-
-    this.normalize()
 
     return this
   }
@@ -116,22 +112,23 @@ export class OrientationVector {
     const conj = quatA.copy(quaternion).conjugate()
     const newX = quatB.multiplyQuaternions(quaternion, xAxis).multiply(conj)
     const newZ = quatC.multiplyQuaternions(quaternion, zAxis).multiply(conj)
-    const oVector = vecA.set(newZ.x, newZ.y, newZ.z).normalize()
+
+    let th = 0
   
     /*
      * The contents of ov.newX.Kmag are not in radians but we can use angleEpsilon anyway to check how close we are to
      * the pole because it's a convenient small number
      */
     if (1 - Math.abs(newZ.z) > EPSILON) {
-      const newZimag = vecB.set(newZ.x, newZ.y, newZ.z)
-      const newXimag = vecC.set(newX.x, newX.y, newX.z)
-      const zImagAxis = vecD.set(zAxis.x, zAxis.y, zAxis.z)
+      const newZimag = vecA.set(newZ.x, newZ.y, newZ.z)
+      const newXimag = vecB.set(newX.x, newX.y, newX.z)
+      const zImagAxis = vecC.set(zAxis.x, zAxis.y, zAxis.z)
 
       // Get the vector normal to the local-x, local-z, origin plane
-      const normal1 = vecE.copy(newZimag).cross(newXimag)
+      const normal1 = vecD.copy(newZimag).cross(newXimag)
 
       // Get the vector normal to the global-z, local-z, origin plane
-      const normal2 = vecF.copy(newZimag).cross(zImagAxis)
+      const normal2 = vecE.copy(newZimag).cross(zImagAxis)
 
       // For theta, find the angle between the planes defined by local-x, global-z, origin and local-x, local-z, origin
       const cosThetaCand = normal1.dot(normal2) / (normal1.length() * normal2.length())
@@ -139,15 +136,15 @@ export class OrientationVector {
       const theta = Math.acos(cosTheta)
 
       if (theta > EPSILON) {
-        const newZImagUnit = vecH.copy(newXimag).normalize()
+        const newZImagUnit = vecF.copy(newXimag).normalize()
         const rotQuatUnit = quatD.setFromAxisAngle(newZImagUnit, -1.0 * theta)
         const conj = quatE.copy(rotQuatUnit).conjugate()
         const testZ = rotQuatUnit.multiplyQuaternions(rotQuatUnit.multiply(zAxis), conj)
         const normal3 = vecG.copy(newZimag).cross(vecH.set(testZ.x, testZ.y, testZ.z))
         const cosTest = normal1.dot(normal2) / (normal3.length() * normal3.length())
-        this.th = 1 - cosTest < EPSILON ** 2 ? -theta : theta
+        th = 1 - cosTest < EPSILON ** 2 ? -theta : theta
       } else {
-        this.th = 0
+        th = 0
       }
 
     /*
@@ -155,21 +152,17 @@ export class OrientationVector {
      * Get the vector normal to the local-x, global-z, origin plane
      */
     } else if (newZ.z < 0) {
-      this.th = -Math.atan2(newX.y, newX.x)
+      th = -Math.atan2(newX.y, newX.x)
     } else {
-      this.th = -Math.atan2(newX.y, -newX.x)
+      th = -Math.atan2(newX.y, -newX.x)
     }
 
-    this.x = oVector.x
-    this.y = oVector.y
-    this.z = oVector.z
+    this.set(newZ.x, newZ.y, newZ.z, th)
 
     return this
   }
 
   toQuaternion (dest: Quaternion): Quaternion {
-    this.normalize()
-
     const lat = Math.acos(this.z)
     const lon = 1 - Math.abs(this.z) > EPSILON ? Math.atan2(this.y, this.x) : 0
     const s0 = Math.sin(lon / 2)
@@ -188,8 +181,6 @@ export class OrientationVector {
   }
 
   toEuler (dest: Euler) {
-    this.normalize()
-
     return dest.setFromQuaternion(this.toQuaternion(quatA))
   }
 }

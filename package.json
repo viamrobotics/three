@@ -1,11 +1,19 @@
 {
   "name": "three-orientation-vector",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
+  "main": "./dist/ov.umd.js",
+  "module": "./dist/ov.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/ov.es.js",
+      "require": "./dist/ov.umd.js"
+    }
+  },
   "scripts": {
-    "start": "vite --host --open",
-    "build": "tsc && vite build",
-    "build-ci": "vite build --base=/three-orientation-vector/",
+    "start": "vite --host --open --config vite.site.config.ts",
+    "build": "vite build",
+    "build-site": "vite build --config vite.site.config.ts",
     "check": "tsc",
     "preview": "vite preview --open",
     "test": "vitest",

@@ -18,8 +18,8 @@ jobs:
       - name: Install and Build 🔧
         run: |
           npm ci --audit=false
-          npm run build-ci
-      - name: Publish 🚀
+          npm run build
+      - name: Deploy Site 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           BRANCH: gh-pages
@@ -27,3 +27,8 @@ jobs:
           CLEAN: true
           clean-exclude: |
             .nojekyll
+
+      - name: Publish 🚀
+        uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }} 

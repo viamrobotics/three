@@ -18,12 +18,13 @@ jobs:
       - name: Install and Build 🔧
         run: |
           npm ci --audit=false
+          npm run build-site
           npm run build
       - name: Deploy Site 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           BRANCH: gh-pages
-          FOLDER: dist
+          FOLDER: site
           CLEAN: true
           clean-exclude: |
             .nojekyll

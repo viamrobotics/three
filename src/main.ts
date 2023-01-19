@@ -37,10 +37,6 @@ export class OrientationVector {
    * The vector's x component.
    * @default 0
    */
-  set x (value: number) {
-    this.#vec.setX(value).normalize()
-  }
-
   get x (): number {
     return this.#vec.x
   }
@@ -49,10 +45,6 @@ export class OrientationVector {
    * The vector's y component.
    * @default 0
    */
-  set y (value: number) {
-    this.#vec.setY(value).normalize()
-  }
-
   get y (): number {
     return this.#vec.y
   }
@@ -61,10 +53,6 @@ export class OrientationVector {
    * The vector's z component.
    * @default 0
    */
-  set z (value: number) {
-    this.#vec.setZ(value).normalize()
-  }
-
   get z () {
     return this.#vec.z
   }

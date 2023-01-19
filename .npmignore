@@ -1,0 +1,11 @@
+.github
+.vscode
+node_modules
+scripts
+src
+.eslintrc.js
+index.html
+tsconfig.json
+vite.config.ts
+site
+!dist

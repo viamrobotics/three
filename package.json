@@ -4,6 +4,7 @@
   "type": "module",
   "main": "./dist/ov.umd.js",
   "module": "./dist/ov.es.js",
+  "types": "./dist/main.d.ts",
   "exports": {
     ".": {
       "import": "./dist/ov.es.js",
@@ -12,14 +13,21 @@
   },
   "scripts": {
     "start": "vite --host --open --config vite.site.config.ts",
-    "build": "vite build",
-    "build-site": "vite build --config vite.site.config.ts",
-    "check": "tsc",
-    "preview": "vite preview --open",
+    "build": "vite build && tsc --emitDeclarationOnly",
+    "build-site": "vite build --outDir site --config vite.site.config.ts",
+    "check": "tsc --noEmit",
+    "preview": "vite preview --open --host",
     "test": "vitest",
     "test-run": "vitest run",
     "coverage": "vitest run --coverage"
   },
+  "keywords": [
+    "three",
+    "three.js",
+    "3d",
+    "orientation vector",
+    "viam"
+  ],
   "devDependencies": {
     "@0b5vr/tweakpane-plugin-rotation": "^0.1.1",
     "@tweakpane/core": "^1.1.1",

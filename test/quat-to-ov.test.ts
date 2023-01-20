@@ -6,12 +6,14 @@ import { EPSILON } from '../src/constants'
 const quat = new THREE.Quaternion()
 const expectedOv = new OrientationVector()
 const convertedOv = new OrientationVector()
+const vecA = new THREE.Vector3()
+const vecB = new THREE.Vector3()
 
-const isOvApproxEqual = (ov1: OrientationVector, ov2: OrientationVector) => {
+const areOvsApproxEqual = (ov1: OrientationVector, ov2: OrientationVector) => {
+  const vecDiff = vecA.set(ov1.x, ov1.y, ov1.z).sub(vecB.set(ov2.x, ov2.y, ov2.z))
+
   return (
-    Math.abs(ov1.x) - Math.abs(ov2.x) < EPSILON &&
-    Math.abs(ov1.y) - Math.abs(ov2.y) < EPSILON &&
-    Math.abs(ov1.z) - Math.abs(ov2.z) < EPSILON &&
+    Math.abs(vecDiff.lengthSq()) < EPSILON &&
     Math.abs(ov1.th) - Math.abs(ov2.th) < EPSILON
   )
 }
@@ -24,7 +26,7 @@ const assertApproxEqual = (
   expectedOv.set(ovx, ovy, ovz, ovth)
   convertedOv.setFromQuaternion(quat)
 
-  expect(isOvApproxEqual(convertedOv, expectedOv)).toBeTruthy()
+  expect(areOvsApproxEqual(convertedOv, expectedOv)).toBeTruthy()
 }
 
 test('quaternion to orientation vector works', () => {

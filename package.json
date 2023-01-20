@@ -1,13 +1,33 @@
 {
   "name": "three-orientation-vector",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
-  "scripts": {
-    "start": "vite --host --open",
-    "build": "vite build",
-    "check": "tsc",
-    "preview": "vite preview --open"
+  "main": "./dist/ov.umd.js",
+  "module": "./dist/ov.es.js",
+  "types": "./dist/main.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/ov.es.js",
+      "require": "./dist/ov.umd.js"
+    }
   },
+  "scripts": {
+    "start": "vite --host --open --config vite.site.config.ts",
+    "build": "vite build && tsc --emitDeclarationOnly",
+    "build-site": "vite build --outDir site --config vite.site.config.ts",
+    "check": "tsc --noEmit",
+    "preview": "vite preview --open --host",
+    "test": "vitest",
+    "test-run": "vitest run",
+    "coverage": "vitest run --coverage"
+  },
+  "keywords": [
+    "three",
+    "three.js",
+    "3d",
+    "orientation vector",
+    "viam"
+  ],
   "devDependencies": {
     "@0b5vr/tweakpane-plugin-rotation": "^0.1.1",
     "@tweakpane/core": "^1.1.1",
@@ -17,7 +37,8 @@
     "three-kit": "github:michealparks/three-kit",
     "tweakpane": "^3.1.1",
     "typescript": "^4.9.4",
-    "vite": "^4.0.4"
+    "vite": "^4.0.4",
+    "vitest": "^0.27.0"
   },
   "peerDependencies": {
     "three": "*"

@@ -9,5 +9,22 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/playground/main.ts"></script>
+    <article>
+      <p>Viam's coordinate system:</p>
+      <p>+X (red) is forward</p>
+      <p>+Y (green) is left</p>
+      <p>+Z (blue) is up</p>
+    </article>
+    <style>
+      article {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        z-index: 100;
+        color: rgba(255,255,255,0.8);
+        font-size: 13px;
+        padding: 1rem;
+      }
+    </style>
   </body>
 </html>

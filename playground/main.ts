@@ -15,6 +15,9 @@ import { rotations } from './rotations'
 const loader = new GLTFLoader()
 
 const world = new THREE.Object3D()
+//
+world.rotateY(-Math.PI / 2)
+world.rotateX(-Math.PI / 2)
 
 scene.add(world)
 
@@ -27,15 +30,16 @@ world.add(axesHelper)
 const gltf = await loader.loadAsync('teapot.glb')
 const object = gltf.scene
 
-object.children[0].rotateZ(Math.PI)
+object.children[0].rotateY(-Math.PI / 2)
+object.children[0].rotateX(Math.PI / 2)
 
-const helper = new THREE.ArrowHelper()
+const helper = new THREE.ArrowHelper(undefined, undefined, 0.25)
 object.add(helper)
 
 scene.add(lights.createAmbient(0xffffff, 1))
 scene.add(lights.createDirectional())
 
-camera.position.set(1, 1, 1)
+camera.position.set(0.5, 0.5, -0.5)
 camera.lookAt(0, 0, 0)
 
 world.add(object)

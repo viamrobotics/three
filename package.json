@@ -1,6 +1,6 @@
 {
   "name": "three-orientation-vector",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "type": "module",
   "main": "./dist/ov.umd.js",
   "module": "./dist/ov.es.js",

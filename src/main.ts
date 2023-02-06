@@ -169,6 +169,6 @@ export class OrientationVector {
   }
 
   toEuler (dest: Euler) {
-    return dest.setFromQuaternion(this.toQuaternion(quatA))
+    return dest.setFromQuaternion(this.toQuaternion(quatA), 'ZYX');
   }
 }

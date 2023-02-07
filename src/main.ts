@@ -129,7 +129,7 @@ export class OrientationVector {
         const conj = quatE.copy(rotQuatUnit).conjugate()
         const testZ = rotQuatUnit.multiplyQuaternions(rotQuatUnit.multiply(zAxis), conj)
         const normal3 = vecG.copy(newZimag).cross(vecH.set(testZ.x, testZ.y, testZ.z))
-        const cosTest = normal1.dot(normal2) / (normal3.length() * normal3.length())
+        const cosTest = normal1.dot(normal3) / (normal1.length() * normal3.length())
         th = 1 - cosTest < EPSILON ** 2 ? -theta : theta
       } else {
         th = 0

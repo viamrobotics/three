@@ -1,6 +1,7 @@
 {
-  "name": "three-orientation-vector",
-  "version": "0.0.5",
+  "name": "@viamrobotics/three",
+  "version": "0.0.1",
+  "license": "Apache-2.0",
   "type": "module",
   "main": "./dist/ov.umd.js",
   "module": "./dist/ov.js",
@@ -34,7 +35,7 @@
     "@tweakpane/plugin-essentials": "^0.1.8",
     "@types/three": "^0.154.0",
     "three-inspect": "^0.3.4",
-    "three-kit": "github:michealparks/three-kit",
+    "trzy": "^0.2.0",
     "tweakpane": "^3.1.10",
     "typescript": "^5.1.6",
     "vite": "^4.4.7",

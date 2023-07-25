@@ -1,9 +1,9 @@
 export const rotations = {
-  ov: { w: 0, x: 0, y: 0, z: 0 },
+  ov: { w: 0, x: 0, y: 0, z: 1 },
   quaternion: { x: 0, y: 0, z: 0, w: 1 },
   euler: {
     xyz: { x: 0, y: 0, z: 0 },
-    order: 'XYZ'
+    order: 'ZYX'
   },
   matrix: {
     row1: { x: 1, y: 0, z: 0 },

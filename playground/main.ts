@@ -1,21 +1,22 @@
 import './main.css'
 import * as THREE from 'three'
-import { scene, camera, lights, renderer, run, composer } from 'three-kit'
-import Inspector from 'three-inspect'
+import { trzy } from 'trzy'
 import { Pane, type InputBindingApi } from 'tweakpane'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import * as EssentialsPlugin from '@tweakpane/plugin-essentials'
 import * as RotationPlugin from '@0b5vr/tweakpane-plugin-rotation'
 import { conversion } from './conversions'
-import { InputTypes, Units, orderOptions } from './types'
+import { type InputTypes, Units, orderOptions } from './types'
 import { rotations } from './rotations'
 
-// new Inspector(THREE, scene, camera, renderer, composer)
+const { scene, camera, renderer } = trzy()
+
+document.body.append(renderer.domElement)
 
 const loader = new GLTFLoader()
 
 const world = new THREE.Object3D()
-//
+// Viam's coordinate system.
 world.rotateY(-Math.PI / 2)
 world.rotateX(-Math.PI / 2)
 
@@ -36,11 +37,11 @@ object.children[0].rotateX(Math.PI / 2)
 const helper = new THREE.ArrowHelper(undefined, undefined, 0.25)
 object.add(helper)
 
-scene.add(lights.createAmbient(0xffffff, 1))
-scene.add(lights.createDirectional())
+scene.add(new THREE.AmbientLight())
+scene.add(new THREE.DirectionalLight())
 
-camera.position.set(0.5, 0.5, -0.5)
-camera.lookAt(0, 0, 0)
+camera.current.position.set(1.5, 1.5, -1.5)
+camera.current.lookAt(0, 0, 0)
 
 world.add(object)
 
@@ -128,5 +129,3 @@ inputs.push(
 inputs.push(
   pane.addInput(rotations.axisAngle, 'angle', { label: '' }).on('change', e => update('axis angle', e))
 )
-
-run()

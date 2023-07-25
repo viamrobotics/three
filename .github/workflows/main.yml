@@ -15,11 +15,17 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
       - name: Install and Build 🔧
         run: |
           npm ci --audit=false
           npm run build-site
           npm run build
+
       - name: Deploy Site 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
@@ -28,7 +34,8 @@ jobs:
           CLEAN: true
           clean-exclude: |
             .nojekyll
+
       - name: Publish 🚀
-        uses: JS-DevTools/npm-publish@v1
+        uses: JS-DevTools/npm-publish@v2.1
         with:
-          token: ${{ secrets.NPM_TOKEN }} 
+          token: ${{ secrets.NPM_TOKEN }}

@@ -4,12 +4,11 @@ import { defineConfig } from 'vite'
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
-    minify: true,
     target: 'esnext',
     lib: {
       // Could also be a dictionary or array of multiple entry points
       entry: 'src/main.ts',
-      name: 'OrientationVector',
+      formats: ['es'],
       // the proper extensions will be added
       fileName: 'ov',
     },
@@ -20,11 +19,6 @@ export default defineConfig({
       output: {
         inlineDynamicImports: true,
         manualChunks: undefined,
-        // Provide global variables to use in the UMD build
-        // for externalized deps
-        globals: {
-          three: 'THREE',
-        },
       },
     }
   },

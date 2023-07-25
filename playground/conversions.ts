@@ -3,6 +3,7 @@ import { Units, InputTypes } from './types'
 import { rotations } from './rotations'
 import { OrientationVector } from '../src/main'
 
+// These two globals are just added to allow playing around in the console as well.
 window.THREE = THREE
 
 // @ts-expect-error For debugging

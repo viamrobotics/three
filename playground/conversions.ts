@@ -3,6 +3,12 @@ import { Units, InputTypes } from './types'
 import { rotations } from './rotations'
 import { OrientationVector } from '../src/main'
 
+// These two globals are just added to allow playing around in the console as well.
+window.THREE = THREE
+
+// @ts-expect-error For debugging
+window.OrientationVector = OrientationVector
+
 const v3 = new THREE.Vector3()
 const quat = new THREE.Quaternion()
 const euler = new THREE.Euler()

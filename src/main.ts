@@ -33,6 +33,13 @@ export class OrientationVector {
 
   #vec = new Vector3()
 
+  #onChangeCallback: (() => void) | undefined
+
+  constructor (x = 0, y = 0, z = 0, th = 0) {
+    this.#vec.set(x, y, z).normalize()
+    this.th = th
+  }
+
   /**
    * The vector's x component.
    * @default 0
@@ -63,9 +70,9 @@ export class OrientationVector {
    */
   th: number
 
-  constructor (x = 0, y = 0, z = 0, th = 0) {
-    this.#vec.set(x, y, z).normalize()
-    this.th = th
+  _onChange(callback: () => void) {
+    this.#onChangeCallback = callback;
+    return this;
   }
 
   /**
@@ -74,6 +81,8 @@ export class OrientationVector {
   set (x = 0, y = 0, z = 0, th = 0): this {
     this.#vec.set(x, y, z).normalize()
     this.th = th
+
+    this.#onChangeCallback?.()
 
     return this
   }
@@ -92,7 +101,27 @@ export class OrientationVector {
     this.#vec.set(ov.x, ov.y, ov.z).normalize()
     this.th = ov.th
 
+    this.#onChangeCallback?.()
+
     return this
+  }
+
+  fromArray(array: number[], offset = 0) {
+    this.#vec.set(array[offset]!, array[offset + 1]!, array[offset + 2]!)
+    this.th = array[offset + 3]!;
+
+    this.#onChangeCallback?.();
+
+    return this;
+  }
+
+  toArray(array: number[] = [], offset = 0) {
+    array[offset] = this.x;
+    array[offset + 1] = this.y;
+    array[offset + 2] = this.z;
+    array[offset + 3] = this.th;
+
+    return array;
   }
 
   setFromQuaternion (quaternion: Quaternion): this {
@@ -146,6 +175,8 @@ export class OrientationVector {
     }
 
     this.set(newZ.x, newZ.y, newZ.z, th)
+
+    this.#onChangeCallback?.()
 
     return this
   }

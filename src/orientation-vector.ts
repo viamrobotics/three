@@ -149,6 +149,10 @@ export class OrientationVector {
     return array;
   }
 
+  toJson() {
+    return this.toArray();
+  }
+
   setFromQuaternion (quaternion: Quaternion, update = true): this {
     // Get the transform of our +X and +Z points
     const conj = quatA.copy(quaternion).conjugate()

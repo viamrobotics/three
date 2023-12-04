@@ -1,6 +1,6 @@
 import './main.css'
 import * as THREE from 'three'
-import { trzy } from 'trzy'
+import { useTrzy } from 'trzy'
 import { Pane, type InputBindingApi } from 'tweakpane'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import * as EssentialsPlugin from '@tweakpane/plugin-essentials'
@@ -9,7 +9,7 @@ import { conversion } from './conversions'
 import { type InputTypes, Units, orderOptions } from './types'
 import { rotations } from './rotations'
 
-const { scene, camera, renderer } = trzy()
+const { scene, camera, renderer } = useTrzy()
 
 document.body.append(renderer.domElement)
 
@@ -49,7 +49,7 @@ const pane = new Pane()
 pane.registerPlugin(EssentialsPlugin)
 pane.registerPlugin(RotationPlugin)
 
-const inputs: InputBindingApi<unknown, unknown>[] = []
+const inputs: any[] = []
 
 const options = {
   units: Units.radians,
@@ -79,10 +79,10 @@ const update = (key: InputTypes, event) => {
   paused = false
 }
 
-pane.addInput(object, 'position')
-pane.addSeparator()
+pane.addBinding(object, 'position')
+pane.addBlade({ view: 'separator' })
 
-pane.addInput(options, 'units', {
+pane.addBinding(options, 'units', {
   view: 'radiogrid',
   groupName: 'units',
   size: [2, 1],
@@ -94,38 +94,40 @@ pane.addInput(options, 'units', {
   label: 'units',
 }).on('change', e => update('quaternion', e));
 
-pane.addSeparator()
+pane.addBlade({ view: 'separator' })
 inputs.push(
-  pane.addInput(rotations, 'ov', { label: 'orientation vector (th / xyz)'}).on('change', e => update('ov', e))
+  pane.addBinding(rotations, 'ov', {
+    label: 'orientation vector (th / xyz)'
+  }).on('change', e => update('ov', e))
 )
-pane.addSeparator()
+pane.addBlade({ view: 'separator' })
 inputs.push(
-  pane.addInput(rotations, 'quaternion', { label: 'quaternion (xyz / w)'}).on('change', e => update('quaternion', e))
+  pane.addBinding(rotations, 'quaternion', { label: 'quaternion (xyz / w)'}).on('change', e => update('quaternion', e))
 )
-pane.addSeparator()
+pane.addBlade({ view: 'separator' })
 inputs.push(
-  pane.addInput(rotations.euler, 'xyz', { label: 'euler' }).on('change', e => update('euler', e))
+  pane.addBinding(rotations.euler, 'xyz', { label: 'euler' }).on('change', e => update('euler', e))
 )
 inputs.push(
-  pane.addInput(rotations.euler, 'order', {
+  pane.addBinding(rotations.euler, 'order', {
     label: '',
     options: orderOptions,
   }).on('change', e => update('euler', e))
 )
-pane.addSeparator()
+pane.addBlade({ view: 'separator' })
 inputs.push(
-  pane.addInput(rotations.matrix, 'row1', { label: 'matrix' }).on('change', e => update('matrix', e))
+  pane.addBinding(rotations.matrix, 'row1', { label: 'matrix' }).on('change', e => update('matrix', e))
 )
 inputs.push(
-  pane.addInput(rotations.matrix, 'row2', { label: '' }).on('change', e => update('matrix', e))
+  pane.addBinding(rotations.matrix, 'row2', { label: '' }).on('change', e => update('matrix', e))
 )
 inputs.push(
-  pane.addInput(rotations.matrix, 'row3', { label: '' }).on('change', e => update('matrix', e))
+  pane.addBinding(rotations.matrix, 'row3', { label: '' }).on('change', e => update('matrix', e))
 )
-pane.addSeparator()
+pane.addBlade({ view: 'separator' })
 inputs.push(
-  pane.addInput(rotations.axisAngle, 'xyz', { label: 'axis angle' }).on('change', e => update('axis angle', e))
+  pane.addBinding(rotations.axisAngle, 'xyz', { label: 'axis angle' }).on('change', e => update('axis angle', e))
 )
 inputs.push(
-  pane.addInput(rotations.axisAngle, 'angle', { label: '' }).on('change', e => update('axis angle', e))
+  pane.addBinding(rotations.axisAngle, 'angle', { label: '' }).on('change', e => update('axis angle', e))
 )

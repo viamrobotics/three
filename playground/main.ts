@@ -97,7 +97,7 @@ pane.addBinding(options, 'units', {
 pane.addBlade({ view: 'separator' })
 inputs.push(
   pane.addBinding(rotations, 'ov', {
-    label: 'orientation vector (th / xyz)'
+    label: 'orientation vector (xyz / th)'
   }).on('change', e => update('ov', e))
 )
 pane.addBlade({ view: 'separator' })

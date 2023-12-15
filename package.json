@@ -1,6 +1,6 @@
 {
   "name": "@viamrobotics/three",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "Apache-2.0",
   "type": "module",
   "files": [
@@ -10,6 +10,7 @@
   "types": "./dist/main.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/main.d.ts",
       "import": "./dist/ov.js"
     }
   },

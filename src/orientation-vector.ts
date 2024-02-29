@@ -41,8 +41,15 @@ export class OrientationVector {
 
   #onChangeCallback: (() => void) | undefined;
 
+  autoNormalize = true;
+
   constructor(x = 0, y = 0, z = 1, th = 0) {
-    this.#vec.set(x, y, z).normalize();
+    this.#vec.set(x, y, z);
+
+    if (this.autoNormalize) {
+      this.#vec.normalize();
+    }
+
     this.#th = th;
   }
 
@@ -59,7 +66,12 @@ export class OrientationVector {
   }
 
   set x(value: number) {
-    this.#vec.setX(value).normalize();
+    this.#vec.setX(value);
+
+    if (this.autoNormalize) {
+      this.#vec.normalize();
+    }
+
     this.#onChangeCallback?.();
   }
 
@@ -72,7 +84,12 @@ export class OrientationVector {
   }
 
   set y(value: number) {
-    this.#vec.setY(value).normalize();
+    this.#vec.setY(value);
+
+    if (this.autoNormalize) {
+      this.#vec.normalize();
+    }
+
     this.#onChangeCallback?.();
   }
 
@@ -85,7 +102,12 @@ export class OrientationVector {
   }
 
   set z(value: number) {
-    this.#vec.setY(value).normalize();
+    this.#vec.setY(value);
+
+    if (this.autoNormalize) {
+      this.#vec.normalize();
+    }
+
     this.#onChangeCallback?.();
   }
 
@@ -122,7 +144,12 @@ export class OrientationVector {
    * Sets the value of this orientation vector.
    */
   set(x = 0, y = 0, z = 0, th = 0): this {
-    this.#vec.set(x, y, z).normalize();
+    this.#vec.set(x, y, z);
+
+    if (this.autoNormalize) {
+      this.#vec.normalize();
+    }
+
     this.th = th;
 
     this.#onChangeCallback?.();
@@ -144,10 +171,23 @@ export class OrientationVector {
   }
 
   /**
+   * Normalizes the vector component.
+   */
+  normalize() {
+    this.#vec.normalize();
+    return this;
+  }
+
+  /**
    * Copies value of ov to this orientation vector.
    */
   copy(ov: OrientationVector): this {
-    this.#vec.set(ov.x, ov.y, ov.z).normalize();
+    this.#vec.set(ov.x, ov.y, ov.z);
+
+    if (this.autoNormalize) {
+      this.#vec.normalize();
+    }
+
     this.th = ov.th;
 
     this.#onChangeCallback?.();

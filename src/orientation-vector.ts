@@ -1,5 +1,5 @@
-import { Euler, Quaternion, Vector3, MathUtils } from "three";
-import { EPSILON } from "./constants";
+import { Euler, Quaternion, Vector3, MathUtils } from 'three';
+import { EPSILON } from './constants';
 
 const xAxis = new Quaternion(-1, 0, 0, 0);
 const zAxis = new Quaternion(0, 0, +1, 0);
@@ -33,6 +33,7 @@ const vecH = new Vector3();
 export class OrientationVector {
   readonly isOrientationVector = true;
 
+  #units: 'degrees' | 'radians' = 'radians';
   #vec = new Vector3();
   #th = 0;
 
@@ -41,6 +42,10 @@ export class OrientationVector {
   constructor(x = 0, y = 0, z = 1, th = 0) {
     this.#vec.set(x, y, z).normalize();
     this.#th = th;
+  }
+
+  get units(): 'degrees' | 'radians' {
+    return this.#units;
   }
 
   /**
@@ -87,21 +92,27 @@ export class OrientationVector {
    * @default 0
    */
   get th() {
+    if (this.#units === 'degrees') {
+      return MathUtils.radToDeg(this.#th);
+    }
     return this.#th;
   }
 
   set th(value: number) {
-    this.#th = value;
+    if (this.#units === 'degrees') {
+      this.#th = MathUtils.degToRad(value);
+    } else {
+      this.#th = value;
+    }
     this.#onChangeCallback?.();
   }
 
   get w() {
-    return this.#th;
+    return this.th;
   }
 
   set w(value: number) {
-    this.#th = value;
-    this.#onChangeCallback?.();
+    this.th = value;
   }
 
   _onChange(callback: () => void) {
@@ -117,6 +128,12 @@ export class OrientationVector {
     this.th = th;
 
     this.#onChangeCallback?.();
+
+    return this;
+  }
+
+  setUnits(units: 'degrees' | 'radians'): this {
+    this.#units = units;
 
     return this;
   }
@@ -245,6 +262,6 @@ export class OrientationVector {
   }
 
   toEuler(dest: Euler) {
-    return dest.setFromQuaternion(this.toQuaternion(quatA), "ZYX");
+    return dest.setFromQuaternion(this.toQuaternion(quatA), 'ZYX');
   }
 }

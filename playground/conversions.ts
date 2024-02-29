@@ -5,16 +5,7 @@
 import * as THREE from 'three';
 import { Units, type InputTypes } from './types';
 import { rotations } from './rotations';
-import { OrientationVector, ViamObject3D } from '../src/main';
-
-// These globals are just added to allow playing around in the console as well.
-window.THREE = THREE;
-
-// @ts-expect-error For debugging
-window.OrientationVector = OrientationVector;
-
-// @ts-expect-error For debugging
-window.ViamObject3D = ViamObject3D;
+import { OrientationVector } from '../src/main';
 
 const v3 = new THREE.Vector3();
 const quat = new THREE.Quaternion();

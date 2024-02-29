@@ -131,12 +131,6 @@ export class OrientationVector {
   }
 
   setUnits(units: 'degrees' | 'radians'): this {
-    if (units === 'degrees' && this.#units === 'radians') {
-      this.#th = MathUtils.degToRad(this.#th);
-    } else if (units === 'radians' && this.#units === 'degrees') {
-      this.#th = MathUtils.radToDeg(this.#th);
-    }
-
     this.#units = units;
 
     return this;

@@ -19,8 +19,10 @@ const vecF = new Vector3();
 const vecG = new Vector3();
 const vecH = new Vector3();
 
-// Golang: https://github.com/viamrobotics/rdk/blob/main/spatialmath/orientationVector.go
-// Rust:   https://github.com/viamrobotics/rust-utils/blob/main/src/spatialmath/utils.rs
+/**
+ * Golang: https://github.com/viamrobotics/rdk/blob/main/spatialmath/orientationVector.go
+ * Rust:   https://github.com/viamrobotics/rust-utils/blob/main/src/spatialmath/utils.rs
+ */
 
 /**
  * Viam’s orientation vector is a method for describing the orientation of an object in 3D space.
@@ -99,11 +101,7 @@ export class OrientationVector {
   }
 
   set th(value: number) {
-    if (this.#units === 'degrees') {
-      this.#th = MathUtils.degToRad(value);
-    } else {
-      this.#th = value;
-    }
+    this.#th = this.#units === 'degrees' ? MathUtils.degToRad(value) : value;
     this.#onChangeCallback?.();
   }
 
@@ -158,8 +156,12 @@ export class OrientationVector {
   }
 
   fromArray(array: number[], offset = 0) {
-    this.#vec.set(array[offset]!, array[offset + 1]!, array[offset + 2]!);
-    this.th = array[offset + 3]!;
+    this.#vec.set(
+      array[offset] ?? 0,
+      array[offset + 1] ?? 0,
+      array[offset + 2] ?? 0
+    );
+    this.th = array[offset + 3] ?? 0;
 
     this.#onChangeCallback?.();
 
@@ -210,11 +212,11 @@ export class OrientationVector {
 
       if (theta > EPSILON) {
         const newZImagUnit = vecF.copy(newXimag).normalize();
-        const rotQuatUnit = quatD.setFromAxisAngle(newZImagUnit, -1.0 * theta);
-        const conj = quatE.copy(rotQuatUnit).conjugate();
+        const rotQuatUnit = quatD.setFromAxisAngle(newZImagUnit, -1 * theta);
+        const conj2 = quatE.copy(rotQuatUnit).conjugate();
         const testZ = rotQuatUnit.multiplyQuaternions(
           rotQuatUnit.multiply(zAxis),
-          conj
+          conj2
         );
         const normal3 = vecG
           .copy(newZimag)
@@ -238,7 +240,9 @@ export class OrientationVector {
 
     this.set(newZ.x, newZ.y, newZ.z, th);
 
-    if (update) this.#onChangeCallback?.();
+    if (update) {
+      this.#onChangeCallback?.();
+    }
 
     return this;
   }

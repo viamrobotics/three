@@ -1,3 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable sonarjs/no-duplicate-string */
+/* eslint-disable id-length */
+/* eslint-disable unicorn/no-array-push-push */
 import './main.css';
 import * as THREE from 'three';
 import { useTrzy } from 'trzy';
@@ -72,7 +78,10 @@ const update = (key: InputTypes, event: TpChangeEvent<unknown>) => {
   paused = true;
 
   for (const input of inputs) {
-    if (input === event.target) continue;
+    if (input === event.target) {
+      continue;
+    }
+
     input.refresh();
   }
 

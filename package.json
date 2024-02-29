@@ -28,7 +28,7 @@
     "lint": "pnpm _eslint && pnpm _prettier --check",
     "format": "pnpm _eslint --fix && pnpm _prettier --write",
     "_prettier": "prettier \"**/*.{js,cjs,ts,css,json,yml,yaml,md}\"",
-    "_eslint": "eslint \".*.cjs\" \"**/*.{js,cjs,ts}\""
+    "_eslint": "eslint \".*.cjs\" \"**/*.{js,ts}\""
   },
   "keywords": [
     "three",

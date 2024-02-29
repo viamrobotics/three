@@ -16,27 +16,25 @@ jobs:
           persist-credentials: false
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: viamrobotics/js-config/.github/actions/setup@618c7955f0a8261bb3cc783f2b26fcc2c9bffa3d
         with:
           node-version: 20
 
-      - name: Install and Build 🔧
+      - name: Build 🔧
         run: |
-          npm ci --audit=false
-          npm run build-site
-          npm run build
+          pnpm run build-site
+          pnpm run build
 
       - name: Deploy Site 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          BRANCH: gh-pages
-          FOLDER: site
-          CLEAN: true
+          branch: gh-pages
+          folder: site
+          clean: true
           clean-exclude: |
             .nojekyll
 
       - name: Publish 🚀
-        uses: JS-DevTools/npm-publish@v2.1
+        uses: JS-DevTools/npm-publish@4b07b26a2f6e0a51846e1870223e545bae91c552
         with:
           token: ${{ secrets.NPM_TOKEN }}
-

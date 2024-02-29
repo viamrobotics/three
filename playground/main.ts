@@ -1,14 +1,13 @@
 import './main.css';
 import * as THREE from 'three';
 import { useTrzy } from 'trzy';
-import { Pane, type InputBindingApi } from 'tweakpane';
+import { Pane, type TpChangeEvent } from 'tweakpane';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import * as EssentialsPlugin from '@tweakpane/plugin-essentials';
 import * as RotationPlugin from '@0b5vr/tweakpane-plugin-rotation';
 import { conversion } from './conversions';
 import { type InputTypes, Units, orderOptions } from './types';
 import { rotations } from './rotations';
-import { OrientationVector } from '../src/orientation-vector';
 
 const { scene, camera, renderer } = useTrzy();
 
@@ -32,8 +31,8 @@ world.add(axesHelper);
 const gltf = await loader.loadAsync('teapot.glb');
 const object = gltf.scene;
 
-object.children[0].rotateY(-Math.PI / 2);
-object.children[0].rotateX(Math.PI / 2);
+object.children[0]?.rotateY(-Math.PI / 2);
+object.children[0]?.rotateX(Math.PI / 2);
 
 const helper = new THREE.ArrowHelper(undefined, undefined, 0.25);
 object.add(helper);
@@ -58,7 +57,7 @@ const options = {
 
 let paused = false;
 
-const update = (key: InputTypes, event) => {
+const update = (key: InputTypes, event: TpChangeEvent<unknown>) => {
   if (paused) {
     return;
   }
@@ -101,7 +100,7 @@ pane.addBlade({ view: 'separator' });
 inputs.push(
   pane
     .addBinding(rotations, 'ov', {
-      label: 'orientation vector (th / xyz)',
+      label: 'orientation vector (xyz / th)',
     })
     .on('change', (e) => update('ov', e))
 );

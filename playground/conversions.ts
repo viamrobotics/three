@@ -130,15 +130,15 @@ export const conversion = (type: InputTypes, units: Units) => {
 
   {
     const r = m4.elements
-    rotations.matrix.row1.x = toFixedWidth(r[0])
-    rotations.matrix.row1.y = toFixedWidth(r[4])
-    rotations.matrix.row1.z = toFixedWidth(r[8])
-    rotations.matrix.row2.x = toFixedWidth(r[1])
-    rotations.matrix.row2.y = toFixedWidth(r[5])
-    rotations.matrix.row2.z = toFixedWidth(r[9])
-    rotations.matrix.row3.x = toFixedWidth(r[2])
-    rotations.matrix.row3.y = toFixedWidth(r[6])
-    rotations.matrix.row3.z = toFixedWidth(r[10])
+    rotations.matrix.row1.x = toFixedWidth(r[0]!)
+    rotations.matrix.row1.y = toFixedWidth(r[4]!)
+    rotations.matrix.row1.z = toFixedWidth(r[8]!)
+    rotations.matrix.row2.x = toFixedWidth(r[1]!)
+    rotations.matrix.row2.y = toFixedWidth(r[5]!)
+    rotations.matrix.row2.z = toFixedWidth(r[9]!)
+    rotations.matrix.row3.x = toFixedWidth(r[2]!)
+    rotations.matrix.row3.y = toFixedWidth(r[6]!)
+    rotations.matrix.row3.z = toFixedWidth(r[10]!)
   }
 
   const axis = [0, 0, 0]

@@ -1,3 +1,4 @@
-'use strict'
+'use strict';
 
-module.exports = '@viamrobotics/prettier-config';
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+module.exports = require('@viamrobotics/prettier-config');

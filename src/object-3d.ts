@@ -1,18 +1,22 @@
-import { Object3D } from 'three'
-import { OrientationVector } from './orientation-vector'
+/* eslint-disable no-underscore-dangle */
 
-const noop = () => { /* do nothing */ }
+import { Object3D } from 'three';
+import { OrientationVector } from './orientation-vector';
+
+const noop = () => {
+  /* do nothing */
+};
 
 /**
  * Nearly identical to THREE.Object3D, but with an attached orientation vector that auto-updates.
  */
 export class ViamObject3D extends Object3D {
-  isViamObject3D = true
+  isViamObject3D = true;
 
-  orientationVector: OrientationVector
+  orientationVector: OrientationVector;
 
-  constructor () {
-    super()
+  constructor() {
+    super();
 
     const ov = new OrientationVector();
     const ovChangeCallback = () => ov.setFromQuaternion(this.quaternion, false);
@@ -22,12 +26,12 @@ export class ViamObject3D extends Object3D {
     const quatChangeCallback = () => {
       quatOldChangeCallback();
       ovChangeCallback();
-    }
+    };
 
     const eulerChangeCallback = () => {
       eulerOldChangeCallback();
       ovChangeCallback();
-    }
+    };
 
     ov._onChange(() => {
       this.quaternion._onChangeCallback = noop;
@@ -38,7 +42,7 @@ export class ViamObject3D extends Object3D {
 
       this.quaternion._onChangeCallback = quatChangeCallback;
       this.rotation._onChangeCallback = eulerChangeCallback;
-		});
+    });
 
     this.quaternion._onChange(quatChangeCallback);
     this.rotation._onChange(eulerChangeCallback);

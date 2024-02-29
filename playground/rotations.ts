@@ -3,7 +3,7 @@ export const rotations = {
   quaternion: { x: 0, y: 0, z: 0, w: 1 },
   euler: {
     xyz: { x: 0, y: 0, z: 0 },
-    order: 'ZYX'
+    order: 'ZYX',
   },
   matrix: {
     row1: { x: 1, y: 0, z: 0 },
@@ -12,7 +12,7 @@ export const rotations = {
   },
   axisAngle: {
     xyz: { x: 0, y: 0, z: 0 },
-    angle: 0
+    angle: 0,
   },
-  axisAngleMagnitude: { x: 0, y: 0, z: 0 }
-}
+  axisAngleMagnitude: { x: 0, y: 0, z: 0 },
+};

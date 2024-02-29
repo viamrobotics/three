@@ -152,8 +152,3 @@ inputs.push(
     .addBinding(rotations.axisAngle, 'angle', { label: '' })
     .on('change', (e) => update('axis angle', e))
 );
-
-const obj = { ov: new OrientationVector() };
-pane
-  .addBinding(obj, 'ov')
-  .on('change', () => console.log(obj.ov.x, obj.ov.y, obj.ov.z, obj.ov.th));

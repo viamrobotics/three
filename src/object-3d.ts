@@ -19,21 +19,12 @@ export class ViamObject3D extends Object3D {
     super();
 
     const ov = new OrientationVector();
-    const ovChangeCallback = () => ov.setFromQuaternion(this.quaternion, false);
-    const eulerOldChangeCallback = this.rotation._onChangeCallback;
-    const quatOldChangeCallback = this.quaternion._onChangeCallback;
 
-    const quatChangeCallback = () => {
-      quatOldChangeCallback();
-      ovChangeCallback();
+    const ovChangeCallback = () => {
+      ov.setFromQuaternion(this.quaternion, false);
     };
 
-    const eulerChangeCallback = () => {
-      eulerOldChangeCallback();
-      ovChangeCallback();
-    };
-
-    ov._onChange(() => {
+    const onChange = () => {
       this.quaternion._onChangeCallback = noop;
       this.rotation._onChangeCallback = noop;
 
@@ -42,7 +33,26 @@ export class ViamObject3D extends Object3D {
 
       this.quaternion._onChangeCallback = quatChangeCallback;
       this.rotation._onChangeCallback = eulerChangeCallback;
-    });
+    };
+
+    const eulerOldChangeCallback = this.rotation._onChangeCallback;
+    const quatOldChangeCallback = this.quaternion._onChangeCallback;
+
+    const quatChangeCallback = () => {
+      ov._onChange(noop);
+      quatOldChangeCallback();
+      ovChangeCallback();
+      ov._onChange(onChange);
+    };
+
+    const eulerChangeCallback = () => {
+      ov._onChange(noop);
+      eulerOldChangeCallback();
+      ovChangeCallback();
+      ov._onChange(onChange);
+    };
+
+    ov._onChange(onChange);
 
     this.quaternion._onChange(quatChangeCallback);
     this.rotation._onChange(eulerChangeCallback);

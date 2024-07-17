@@ -102,7 +102,7 @@ export class OrientationVector {
   }
 
   set z(value: number) {
-    this.#vec.setY(value);
+    this.#vec.setZ(value);
 
     if (this.autoNormalize) {
       this.#vec.normalize();
@@ -221,7 +221,7 @@ export class OrientationVector {
     return this.toArray();
   }
 
-  setFromQuaternion(quaternion: Quaternion, update = true): this {
+  setFromQuaternion(quaternion: Quaternion): this {
     // Get the transform of our +X and +Z points
     const conj = quatA.copy(quaternion).conjugate();
     const newX = quatB.multiplyQuaternions(quaternion, xAxis).multiply(conj);
@@ -280,9 +280,7 @@ export class OrientationVector {
 
     this.set(newZ.x, newZ.y, newZ.z, th);
 
-    if (update) {
-      this.#onChangeCallback?.();
-    }
+    this.#onChangeCallback?.();
 
     return this;
   }

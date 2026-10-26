@@ -21,7 +21,7 @@ export class ViamObject3D extends Object3D {
     const ov = new OrientationVector();
 
     const ovChangeCallback = () => {
-      ov.setFromQuaternion(this.quaternion, false);
+      ov.setFromQuaternion(this.quaternion);
     };
 
     const onChange = () => {

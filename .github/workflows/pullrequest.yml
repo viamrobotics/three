@@ -11,10 +11,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+
       - name: Setup Node
-        uses: viamrobotics/js-config/.github/actions/setup@618c7955f0a8261bb3cc783f2b26fcc2c9bffa3d
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Lint/format checks
         run: pnpm run lint
@@ -24,10 +31,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+
       - name: Setup Node
-        uses: viamrobotics/js-config/.github/actions/setup@618c7955f0a8261bb3cc783f2b26fcc2c9bffa3d
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Type checks
         run: pnpm run check
@@ -37,10 +51,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+
       - name: Setup Node
-        uses: viamrobotics/js-config/.github/actions/setup@618c7955f0a8261bb3cc783f2b26fcc2c9bffa3d
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Tests
         run: pnpm run test-run

@@ -1,4 +1,4 @@
-import { Euler, Quaternion, Vector3, MathUtils } from 'three';
+import { Quaternion, Vector3, MathUtils, type Euler } from 'three';
 import { EPSILON } from './constants';
 
 const xAxis = new Quaternion(-1, 0, 0, 0);
